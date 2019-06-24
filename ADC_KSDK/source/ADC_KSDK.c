@@ -93,7 +93,8 @@ int main(void) {
 	while(1){
 
 		uint32_t data;
-		uint32_t Value;
+		float Value;
+
 
 		/*Configure the channel and starts the conversion. */
 		ADC16_SetChannelConfig(ADC0, 0, &adcChCfg);
@@ -101,21 +102,21 @@ int main(void) {
 		while(ADC16_GetChannelStatusFlags(ADC0, 0) != kADC16_ChannelConversionDoneFlag);
 
 		data = ADC16_GetChannelConversionValue(ADC0, 0);
-		Value = ((data*3.3)/4096);
-		printf("ADC value : %01x\n", Value);
+		Value = ((data*3.3)/4095);
+		printf("ADC value : %f\n", Value);
 
-		if(Value <= 25){ // trocar para valores coerentes com os valores da tensão lida da bateria.
+		if(Value <= 0.18){ // trocar para valores coerentes com os valores da tensão lida da bateria.
 
 			GPIO_PortSet(GPIOC,(1 << 2));
 			PRINTF("LED1 ACESO!");
 
-		}else if((Value > 25) && (Value <= 50)){ // trocar para valores coerentes com os valores da tensão lida da bateria.
+		}else if((Value > 0.18) && (Value <= 0.22)){ // trocar para valores coerentes com os valores da tensão lida da bateria.
 
 			GPIO_PortSet(GPIOC,(1 << 2));
 			GPIO_PortSet(GPIOC,(1 << 3));
 			PRINTF("leD1 e led2 ACESOS!");
 
-		}else if(Value > 75){ // trocar para valores coerentes com os valores da tensão lida da bateria.
+		}else if((Value > 0.22) && (Value <= 0.26)){ // trocar para valores coerentes com os valores da tensão lida da bateria.
 
 			GPIO_PortSet(GPIOC,(1 << 2));
 			GPIO_PortSet(GPIOC,(1 << 3));
